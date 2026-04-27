@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaPipe Web Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="layout">
+
+        <!-- サイドバー -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-dot"></span>
+                <h1 class="brand-name">mediapipe<br>dashboard</h1>
+            </div>
+
+            <nav class="controls">
+                <p class="controls-label">CONTROLS</p>
+
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-title">Hand Landmark</span>
+                        <span class="toggle-desc">手のランドマーク表示</span>
+                    </div>
+                    <button class="toggle-btn active" id="btn-landmark" onclick="toggleLandmark()">
+                        <span class="toggle-knob"></span>
+                    </button>
+                </div>
+
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <span class="toggle-title">Face Orientation</span>
+                        <span class="toggle-desc">顔の向き推定</span>
+                    </div>
+                    <button class="toggle-btn" id="btn-face" onclick="toggleFace()">
+                        <span class="toggle-knob"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="orientation-panel" id="orientation-panel">
+                <p class="controls-label">FACE ORIENTATION</p>
+                <div class="orientation-grid">
+                    <div class="orientation-item">
+                        <span class="orientation-axis">YAW</span>
+                        <span class="orientation-value" id="val-yaw">—</span>
+                        <span class="orientation-unit">deg</span>
+                    </div>
+                    <div class="orientation-item">
+                        <span class="orientation-axis">PITCH</span>
+                        <span class="orientation-value" id="val-pitch">—</span>
+                        <span class="orientation-unit">deg</span>
+                    </div>
+                    <div class="orientation-item">
+                        <span class="orientation-axis">ROLL</span>
+                        <span class="orientation-value" id="val-roll">—</span>
+                        <span class="orientation-unit">deg</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="status-dot" id="status-dot"></span>
+                <span class="status-text" id="status-text">connecting...</span>
+            </div>
+        </aside>
+
+        <!-- メインエリア -->
+        <main class="main">
+            <div class="video-wrapper">
+                <img src="/video_feed" class="video-feed" alt="camera feed">
+                <div class="video-overlay">
+                    <div class="gesture-display" id="gesture-display">
+                        <span class="gesture-waiting">手をかざしてください</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
