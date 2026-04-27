@@ -21,7 +21,7 @@ DEFAULT_FACE_ORIENTATION_ENABLED = False   # 顔の向き推定
 
 # Flask / SocketIO設定
 FLASK_HOST = "0.0.0.0"
-FLASK_PORT = 5000
+FLASK_PORT = 5002
 FLASK_DEBUG = True
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-fallback-secret")
 
