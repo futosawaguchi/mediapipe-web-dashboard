@@ -47,15 +47,6 @@ class Camera:
             # 顔の向き推定
             frame, orientation = self.face_detector.process(frame)
 
-            # ジェスチャーラベルを画面左上に描画
-            if gesture:
-                cv2.putText(
-                    frame, gesture,
-                    (10, 50),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1.2, (0, 255, 0), 3,
-                )
-
             with self._lock:
                 self._latest_frame = frame
                 self._latest_gesture = gesture

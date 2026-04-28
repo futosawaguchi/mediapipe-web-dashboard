@@ -96,9 +96,6 @@ class FaceDetector:
         pitch = orientation["pitch"]
         roll  = orientation["roll"]
 
-        h, w, _ = frame.shape
-        x = w - 220  # 右上に表示
-
         texts = [
             f"Yaw:   {yaw:+.1f}",
             f"Pitch: {pitch:+.1f}",
@@ -107,10 +104,11 @@ class FaceDetector:
         for i, text in enumerate(texts):
             cv2.putText(
                 frame, text,
-                (x, 30 + i * 30),
+                (20, 70 + i * 35),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.7, (0, 255, 255), 2,
+                0.8, (0, 255, 255), 2,
             )
+
 
     def set_enabled(self, enabled: bool):
         """顔の向き推定のON/OFFを切り替える"""
