@@ -81,7 +81,7 @@ class HandDetector:
 
             # ジェスチャー判定
             fingers = get_finger_states(landmarks)
-            gesture_label = self._classify(fingers)
+            gesture_label = self._classify(landmarks)
 
         return frame, gesture_label
 
@@ -99,10 +99,10 @@ class HandDetector:
         for cx, cy in points:
             cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
 
-    def _classify(self, fingers: list[bool]) -> str | None:
-        """指の状態からジェスチャーを判定する"""
+    def _classify(self, landmarks) -> str | None:
+        """ランドマークからジェスチャーを判定する"""
         for gesture in GESTURE_LIST:
-            if gesture.detect(fingers):
+            if gesture.detect(landmarks):
                 return gesture.label
         return None
 

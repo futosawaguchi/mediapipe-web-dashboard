@@ -1,17 +1,12 @@
-from .base import BaseGesture
+from .base import BaseGesture, get_finger_states
 
 
 class GoodGesture(BaseGesture):
     name = "good"
-    label = "👍 グッド"
+    label = "Good"
 
     @staticmethod
-    def detect(fingers: list[bool]) -> bool:
-        # 親指だけ立っていて、他は曲がっている
-        return (
-            fingers[0]
-            and not fingers[1]
-            and not fingers[2]
-            and not fingers[3]
-            and not fingers[4]
-        )
+    def detect(landmarks) -> bool:
+        f = get_finger_states(landmarks)
+        # 親指だけ伸びていて他は全て曲がっている
+        return f["thumb"] and not f["index"] and not f["middle"] and not f["ring"] and not f["pinky"]

@@ -1,17 +1,15 @@
-from .base import BaseGesture
+from .base import BaseGesture, get_finger_states, tip_near_finger
 
 
 class PointingGesture(BaseGesture):
     name = "pointing"
-    label = "☝️ ポインティング"
+    label = "Pointing"
 
     @staticmethod
-    def detect(fingers: list[bool]) -> bool:
-        # 人差し指だけ立っていて、他は曲がっている
-        return (
-            not fingers[0]
-            and fingers[1]
-            and not fingers[2]
-            and not fingers[3]
-            and not fingers[4]
-        )
+    def detect(landmarks) -> bool:
+        f = get_finger_states(landmarks)
+        # 人差し指だけ伸びている
+        index_only = f["index"] and not f["middle"] and not f["ring"] and not f["pinky"]
+        # 親指の先が中指の付け根に近い
+        thumb_tucked = tip_near_finger(landmarks, 4, 9, threshold=0.10)
+        return index_only and thumb_tucked

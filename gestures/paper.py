@@ -1,11 +1,12 @@
-from .base import BaseGesture
+from .base import BaseGesture, get_finger_states
 
 
 class PaperGesture(BaseGesture):
     name = "paper"
-    label = "✋ パー"
+    label = "Paa"
 
     @staticmethod
-    def detect(fingers: list[bool]) -> bool:
-        # 全ての指が立っている
-        return all(fingers)
+    def detect(landmarks) -> bool:
+        f = get_finger_states(landmarks)
+        # 全ての指が伸びている
+        return f["thumb"] and f["index"] and f["middle"] and f["ring"] and f["pinky"]
