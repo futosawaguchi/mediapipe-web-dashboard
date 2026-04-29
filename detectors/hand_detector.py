@@ -100,7 +100,6 @@ class HandDetector:
             cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
 
     def _classify(self, landmarks) -> str | None:
-        """ランドマークからジェスチャーを判定する"""
         for gesture in GESTURE_LIST:
             if gesture.detect(landmarks):
                 return gesture.label

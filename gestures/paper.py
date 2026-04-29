@@ -1,6 +1,5 @@
 from .base import BaseGesture, get_finger_states
 
-
 class PaperGesture(BaseGesture):
     name = "paper"
     label = "Paa"
@@ -8,5 +7,4 @@ class PaperGesture(BaseGesture):
     @staticmethod
     def detect(landmarks) -> bool:
         f = get_finger_states(landmarks)
-        # 全ての指が伸びている
         return f["thumb"] and f["index"] and f["middle"] and f["ring"] and f["pinky"]

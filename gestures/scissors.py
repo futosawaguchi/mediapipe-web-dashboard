@@ -1,5 +1,4 @@
-from .base import BaseGesture, get_finger_states, tip_near_finger
-
+from .base import BaseGesture, get_finger_states, thumb_near
 
 class ScissorsGesture(BaseGesture):
     name = "scissors"
@@ -8,10 +7,7 @@ class ScissorsGesture(BaseGesture):
     @staticmethod
     def detect(landmarks) -> bool:
         f = get_finger_states(landmarks)
-        # 人差し指・中指が伸びている
-        two_open = f["index"] and f["middle"]
-        # 薬指・小指が曲がっている
+        two_open   = f["index"] and f["middle"]
         two_closed = not f["ring"] and not f["pinky"]
-        # 親指の先が薬指の付け根に近い
-        thumb_tucked = tip_near_finger(landmarks, 4, 13, threshold=0.10)
+        thumb_tucked = thumb_near(landmarks, target_idx=13, threshold=0.6)
         return two_open and two_closed and thumb_tucked
