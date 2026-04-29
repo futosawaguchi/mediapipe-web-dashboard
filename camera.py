@@ -42,7 +42,7 @@ class Camera:
             frame = cv2.flip(frame, 1)
 
             # 手のランドマーク・ジェスチャー判定
-            frame, gesture = self.hand_detector.process(frame)
+            frame, gesture, direction = self.hand_detector.process(frame)
 
             # 顔の向き推定
             frame, orientation = self.face_detector.process(frame)
@@ -51,6 +51,7 @@ class Camera:
                 self._latest_frame = frame
                 self._latest_gesture = gesture
                 self._latest_orientation = orientation
+                self._latest_direction   = direction
 
     def get_frame(self) -> bytes | None:
         """
@@ -72,6 +73,7 @@ class Camera:
             return {
                 "gesture": self._latest_gesture,
                 "orientation": self._latest_orientation,
+                "direction":        self._latest_direction,
                 "landmark_visible": self.hand_detector.landmark_visible,
                 "face_enabled": self.face_detector.enabled,
             }

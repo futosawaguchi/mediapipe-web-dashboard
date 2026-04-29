@@ -19,6 +19,7 @@ socket.on("disconnect", () => {
 socket.on("status", (data) => {
     updateGesture(data.gesture);
     updateOrientation(data.orientation);
+    updateDirection(data.direction);
 
     // サーバー側の状態とUIを同期
     landmarkVisible = data.landmark_visible;
@@ -48,6 +49,16 @@ function updateOrientation(orientation) {
     document.getElementById("val-yaw").textContent   = formatDeg(orientation.yaw);
     document.getElementById("val-pitch").textContent = formatDeg(orientation.pitch);
     document.getElementById("val-roll").textContent  = formatDeg(orientation.roll);
+}
+
+function updateDirection(direction) {
+    if (!direction) {
+        document.getElementById("val-h").textContent = "—";
+        document.getElementById("val-v").textContent = "—";
+        return;
+    }
+    document.getElementById("val-h").textContent = formatDeg(direction.horizontal);
+    document.getElementById("val-v").textContent = formatDeg(direction.vertical);
 }
 
 function formatDeg(val) {
