@@ -22,7 +22,7 @@ def download_model():
 def calc_pointing_direction(landmarks) -> dict | None:
     """
     人差し指の付け根(5) → 指先(8) のベクトルから
-    水平角度・垂直角度を計算する
+    水平角度・垂直角度を計算する。
 
     Returns:
         {
