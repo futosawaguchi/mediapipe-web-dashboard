@@ -113,6 +113,7 @@ python app.py
 
 ## ディレクトリ構成
 
+```
 mediapipe-web-dashboard/
 ├── app.py                  # Flaskメインアプリ
 ├── config.py               # 設定値
@@ -137,6 +138,7 @@ mediapipe-web-dashboard/
 └── tests/
 ├── test_hand.py        # 手のランドマーク動作確認
 └── test_face.py        # 顔のランドマーク動作確認
+```
 
 ---
 
