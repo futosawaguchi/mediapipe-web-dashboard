@@ -22,29 +22,45 @@ def download_model():
 def calc_pointing_direction(landmarks) -> dict | None:
     """
     人差し指の付け根(5) → 指先(8) のベクトルから
-    水平角度・垂直角度を計算する。
+    水平・垂直・奥行き角度を計算する
 
     Returns:
         {
             "horizontal": float,  # 水平角度（右が正、左が負）
             "vertical":   float,  # 垂直角度（上が正、下が負）
+            "depth":      float,  # 奥行き角度（カメラ方向が正）
+            "dx": float,          # 正規化済みベクトル（フロント描画用）
+            "dy": float,
         }
     """
-    base = landmarks[5]  # 人差し指付け根
-    tip  = landmarks[8]  # 人差し指先端
+    base = landmarks[5]
+    tip  = landmarks[8]
 
-    dx = tip.x - base.x   # 右が正・左が負
-    dy = tip.y - base.y   # 下が正・上が負（画像座標系）
+    dx = tip.x - base.x
+    dy = tip.y - base.y
+    dz = tip.z - base.z
 
-    # 水平角度：右が正、左が負（-180°〜+180°）
-    horizontal = float(np.degrees(np.arctan2(dx, abs(dy) + 1e-6)))
+    # ベクトルの長さで正規化
+    length = np.sqrt(dx**2 + dy**2 + dz**2) + 1e-6
+    ndx = dx / length
+    ndy = dy / length
+    ndz = dz / length
 
-    # 垂直角度：上が正、下が負（画像座標系を反転）
-    vertical = float(np.degrees(np.arctan2(-dy, abs(dx) + 1e-6)))
+    # 水平角度（右が正・左が負）
+    horizontal = float(np.degrees(np.arctan2(ndx, np.sqrt(ndy**2 + ndz**2) + 1e-6)))
+
+    # 垂直角度（上が正・下が負、画像座標系を反転）
+    vertical = float(np.degrees(np.arctan2(-ndy, np.sqrt(ndx**2 + ndz**2) + 1e-6)))
+
+    # 奥行き角度（カメラ方向が正）
+    depth = float(np.degrees(np.arctan2(-ndz, np.sqrt(ndx**2 + ndy**2) + 1e-6)))
 
     return {
         "horizontal": round(horizontal, 1),
         "vertical":   round(vertical, 1),
+        "depth":      round(depth, 1),
+        "dx":         round(ndx, 3),   # フロントの矢印描画用
+        "dy":         round(ndy, 3),
     }
 
 class HandDetector:
